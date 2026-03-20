@@ -21,7 +21,7 @@ class Order {
   });
 
   // toMap() to raw data / SQLite does not understand Dart ojects, 
-  // convert to key-value maps, id excluded as SQLite auto-generates it
+  // convert to map, id excluded as SQLite auto-generates it
   Map<String, dynamic> toMap() {
     return {
       'customerName': customerName,

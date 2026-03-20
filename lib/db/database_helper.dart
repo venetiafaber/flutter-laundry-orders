@@ -58,7 +58,7 @@ class DatabaseHelper {
   }
 
   // returns all orders
-  Future<List<Order>> getOrders() async {
+  Future<List<Order>> getAllOrders() async {
     final db = await database;
 
     final List<Map<String, dynamic>> maps = await db.query(
