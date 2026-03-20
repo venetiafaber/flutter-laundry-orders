@@ -4,14 +4,14 @@ import '../db/database_helper.dart';
 
 class OrderProvider with ChangeNotifier {
   
-  final DatabaseHelper _db = DatabaseHelper();   // what does this do?
+  final DatabaseHelper _db = DatabaseHelper();
 
   List<Order>_orders = [];    // orders list from db
-  List<Order> _filtered = []; // order list after filter using searchquery is applied? is it?
+  List<Order> _filtered = []; // order list after filter using searchquery is applied
   String _searchQuery = '';   // what the user types in the search box
   String? _statusFilter;      // which status tab is active
-  bool _isLoading = false;    // variable to show loading spinner while DB is in fetching - why is this not stored in state like in react?
-  String? _error;             // variable to hold any error message - why is this not stored in state like in react?
+  bool _isLoading = false;    // variable to show loading spinner while DB is in fetching 
+  String? _error;             
 
   // public getters (exposed to widgets)
   List<Order> get orders => _filtered;
@@ -53,7 +53,7 @@ class OrderProvider with ChangeNotifier {
   // insert orders
   Future<void> addOrder(Order order) async {
     try {
-      final id = await _db.insertOrder(order); // does insertOrder in database helper return id? I cant see this in the insertOrder() in database helper 
+      final id = await _db.insertOrder(order);
       // attaches the db generated if before adding to local state - why??
       _orders.insert(0, order.copyWith(id: id));    // index 0 - front of the list
       _applyFilters();    
@@ -114,15 +114,15 @@ class OrderProvider with ChangeNotifier {
   }
 
   // private helper functions
-  void _setLoading(bool value) {    // why is the name of the function stating with _
+  void _setLoading(bool value) {
     _isLoading = value;
-    notifyListeners();              // what does this do? who does this notifiy?
+    notifyListeners();              // notifies all widgets that call context.watch
   }
 
-  void _applyFilters () {           // why is the name of the function stating with _
+  void _applyFilters () {           
     _filtered = _orders.where((order) {
       final matchesSearch = _searchQuery.isEmpty || 
-        order.customerName.toLowerCase().contains(_searchQuery) ||    // explain - is this checking if the searchquery contains customername?
+        order.customerName.toLowerCase().contains(_searchQuery) ||
         order.id.toString().contains(_searchQuery);
 
       final matchesStatus = _statusFilter == null ||
@@ -148,14 +148,13 @@ class OrderProvider with ChangeNotifier {
 
 }
 
-// what is this? should we define the enum here or in the order model, normally we define in order model in mern app
 enum OrderStatus {
   received('Received'),
   washing('Washing'),
   ready('Ready'),
   delivered('Delivered');
 
-  const OrderStatus(this.value);    // why are we using const here and not final?
+  const OrderStatus(this.value);
   final String value;     
 
   // human-friendly label with an emoji

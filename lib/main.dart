@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/order_provider.dart';
+import 'screens/orders_list.dart';
 
 
 void main() {
@@ -22,7 +23,7 @@ class LaundryApp extends StatelessWidget {
           // theme of application
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blue,
-            brightness: Brightness.dark,
+            brightness: Brightness.light,
           ),
           useMaterial3: true,
           inputDecorationTheme: const InputDecorationTheme(
@@ -30,7 +31,16 @@ class LaundryApp extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           ),
         ),
-        home: const _ProviderBootstrapper(),
+        
+        // home: const _ProviderBootstrapper(),
+        // routes
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const _ProviderBootstrapper(),
+          //'/add-order': (context) => AddOrder(),
+          //'/dashboard': (context) => Dashboard(),
+        },
+
       ),
     );
   }
@@ -49,7 +59,6 @@ class _ProviderBootstrapperState extends State<_ProviderBootstrapper> {
 @override
   void initState() {
     super.initState();
-
     context.read<OrderProvider>().loadOrders();
   }
 
@@ -64,27 +73,6 @@ Widget build(BuildContext context) {
     }
 
     // placeholder for OrdersListScreen
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Laundry Manager'),
-        ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.local_laundry_service, size: 64, color: Colors.blueAccent),
-            const SizedBox(height: 16),
-            Text(
-              'Provider ready',
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            Text('Orders Loaded: ${provider.stats['count']}'),
-            Text('Revenue: \$${(provider.stats['revenue'] as double).toStringAsFixed(2)}',
-            ),
-          ],
-        ),
-      ),
-    );
+    return const OrdersList();
   }
 }
