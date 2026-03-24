@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/order_provider.dart';
 import 'screens/orders_list.dart';
+import 'screens/add_order.dart';
 
 
 void main() {
-  runApp(const LaundryApp());
+  runApp(
+    // wrapping in a provider like react context
+    ChangeNotifierProvider(
+      create: (_) => OrderProvider(),
+      child: const LaundryApp(),
+    ),
+  );
+  
 }
 
 class LaundryApp extends StatelessWidget {
@@ -14,15 +22,14 @@ class LaundryApp extends StatelessWidget {
   // root widget of the application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(      // provider wrapper
-      create: (_) => OrderProvider(), 
-      child: MaterialApp(
+    return MaterialApp(
         title: 'Laundry Order Management',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // theme of application
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue,
+            seedColor: const Color(0xFFCC0000),
+            primary: const Color(0xFFCC0000),
             brightness: Brightness.light,
           ),
           useMaterial3: true,
@@ -32,17 +39,14 @@ class LaundryApp extends StatelessWidget {
           ),
         ),
         
-        // home: const _ProviderBootstrapper(),
         // routes
         initialRoute: '/',
         routes: {
           '/': (context) => const _ProviderBootstrapper(),
-          //'/add-order': (context) => AddOrder(),
+          '/add-order': (context) => const AddOrder(),
           //'/dashboard': (context) => Dashboard(),
         },
-
-      ),
-    );
+      );
   }
 }
 
@@ -59,7 +63,9 @@ class _ProviderBootstrapperState extends State<_ProviderBootstrapper> {
 @override
   void initState() {
     super.initState();
-    context.read<OrderProvider>().loadOrders();
+    WidgetsBinding.instance.addPostFrameCallback((_) {    //explain compared to react
+      context.read<OrderProvider>().loadOrders();
+    });
   }
 
 @override

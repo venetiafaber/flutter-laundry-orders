@@ -22,6 +22,9 @@ class DatabaseHelper {
 
     final path = join(dbPath, 'laundry_orders.db');
 
+    // debug
+    print('Full db path: $path');
+
     return await openDatabase(
       path,
       version: 1,
@@ -32,7 +35,7 @@ class DatabaseHelper {
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE orders (
-        ID            INTEGER PRIMARY KEY AUTOINCREMENT,
+        id            INTEGER PRIMARY KEY AUTOINCREMENT,
         customerName  TEXT    NOT NULL,
         phoneNumber   TEXT    NOT NULL,
         serviceType   TEXT    NOT NULL,

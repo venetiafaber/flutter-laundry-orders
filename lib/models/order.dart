@@ -16,9 +16,10 @@ class Order {
     required this.serviceType,
     required this.numberOfItems,
     required this.pricePerItem,
-    required this.totalPrice,
+    double? totalPrice,
     this.status = 'Received',   // default value
-  });
+  })
+  : totalPrice = totalPrice ?? (numberOfItems * pricePerItem);
 
   // toMap() to raw data / SQLite does not understand Dart ojects, 
   // convert to map, id excluded as SQLite auto-generates it

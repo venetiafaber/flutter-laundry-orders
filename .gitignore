@@ -41,3 +41,20 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#iOS / CocoaPods
+ios/Pods/
+ios/Podfile.lock
+
+#macOS / CocoaPods
+macos/Pods/
+macos/Podfile.lock
+
+# Xcode build data
+ios/Runner.xcworkspace/xcuserdata/
+ios/Runner.xcodeproj/xcuserdata/
+macos/Runner.xcworkspace/xcuserdata/
+macos/Runner.xcodeproj/xcuserdata/
+
+# Xcode Derived Data
+DerivedData/

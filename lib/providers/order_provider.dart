@@ -26,8 +26,8 @@ class OrderProvider with ChangeNotifier {
       0, (sum, o) => sum + o.totalPrice,
     );
     return {
-      'count': _orders.length,
-      'revenue': total,
+      'totalOrders': _orders.length,
+      'totalRevenue': total,
       'byStatus': {
         for (final status in OrderStatus.values)
           status.value: _orders.where((o) => o.status == status.value).length,
@@ -35,16 +35,17 @@ class OrderProvider with ChangeNotifier {
     };
   }
 
-
   // load orders at startup (like useEffect)
   Future<void> loadOrders() async {
     _setLoading(true);
     try {
       _orders = await _db.getAllOrders();
+      print('Loaded ${_orders.length} orders: $_orders');   // debug
       _applyFilters();      //pushes the order data into _filtered and call notifyListeners(): _applyFilters does both these
     } catch (e) {
+      print('loadOrders errors: $e');   // debug 
       _error = e.toString();
-      notifyListeners();    // like setState(), wevery widget that calls OrderProvider context with re-render
+      notifyListeners();    // like setState(), every widget that calls OrderProvider context with re-render
     } finally {
       _setLoading(false);
     }
@@ -54,10 +55,12 @@ class OrderProvider with ChangeNotifier {
   Future<void> addOrder(Order order) async {
     try {
       final id = await _db.insertOrder(order);
-      // attaches the db generated if before adding to local state - why??
+      print('Inserted order with id: $id'); // debug 
+      // attaches the db generated if before adding to local state
       _orders.insert(0, order.copyWith(id: id));    // index 0 - front of the list
       _applyFilters();    
     } catch (e) {
+      print('addOrders errors: $e');   // debug 
       _error = e.toString();
       notifyListeners();
     } 
@@ -126,7 +129,7 @@ class OrderProvider with ChangeNotifier {
         order.id.toString().contains(_searchQuery);
 
       final matchesStatus = _statusFilter == null ||
-        order.status == _statusFilter;    // explain
+        order.status == _statusFilter;
 
       return matchesSearch && matchesStatus;
     }).toList();

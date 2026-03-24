@@ -10,7 +10,7 @@ class OrdersList extends StatefulWidget {
 }
 
 class _OrdersListState extends State<OrdersList> {
-  final TextEditingController _searchController = TextEditingController(); //explain, what is TextEditingController??
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
@@ -26,7 +26,7 @@ class _OrdersListState extends State<OrdersList> {
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFF1A73E8),
+        backgroundColor: const Color(0xFFCC0000),
         foregroundColor: Colors.white,
         title: const Text(
           'Laundry Orders',
@@ -45,7 +45,7 @@ class _OrdersListState extends State<OrdersList> {
       ),
 
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF1A73E8),
+        backgroundColor: const Color(0xFFCC0000),
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),   
         label: const Text('New Order'),
@@ -102,7 +102,7 @@ class _OrdersListState extends State<OrdersList> {
 }
 
 class _DashboardBanner extends StatelessWidget {
-  final Map<String, dynamic> stats;   // what is Map in flutter? is stats a variable, what is stats?
+  final Map<String, dynamic> stats;
 
   const _DashboardBanner({
     required this.stats
@@ -117,7 +117,7 @@ class _DashboardBanner extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF1A73E8), Color(0xFF0D47A1)],
+          colors: [Color(0xFFCC0000), Color(0xFF8B0000)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -267,7 +267,7 @@ class _FilterChipRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 44,
-      child: ListView.separated(    // what widget is listview.seperated?
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: _filters.length,
@@ -282,7 +282,7 @@ class _FilterChipRow extends StatelessWidget {
             label: Text(label),
             selected: isSelected,
             onSelected: (_) => onSelected(value),
-            selectedColor: const Color(0xFF1A73E8),
+            selectedColor: const Color(0xFFCC0000),
             checkmarkColor: Colors.white,
             labelStyle: TextStyle(
               color: isSelected ? Colors.white : Colors.grey[700],
@@ -293,7 +293,7 @@ class _FilterChipRow extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
               side: BorderSide(
-                color: isSelected ? const Color(0xFF1A73E8) : Colors.grey[300]!,
+                color: isSelected ? const Color(0xFFCC0000) : Colors.grey[300]!,
                 ),
             ),
           );
@@ -509,13 +509,13 @@ class _EmptyState extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(28),
             decoration: BoxDecoration(
-              color: const Color(0xFF1A73E8).withOpacity(0.08),
+              color: const Color(0xFFCC0000).withOpacity(0.08),
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.local_laundry_service_rounded,
               size: 56,
-              color: Color(0xFF1A73E8),
+              color: Color(0xFFCC0000),
             ),
           ),
           const SizedBox(height: 20),
