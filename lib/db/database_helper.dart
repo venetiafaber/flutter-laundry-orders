@@ -23,7 +23,7 @@ class DatabaseHelper {
     final path = join(dbPath, 'laundry_orders.db');
 
     // debug
-    print('Full db path: $path');
+    //print('Full db path: $path');
 
     return await openDatabase(
       path,
@@ -77,7 +77,7 @@ class DatabaseHelper {
     final db = await database;
     return await db.update(
       'orders', 
-      {'status': newStatus},
+      {'status': newStatus},    // only updates the status column
       where: 'id = ?',
       whereArgs: [id],
     );

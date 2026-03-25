@@ -7,9 +7,9 @@ import 'screens/add_order.dart';
 
 void main() {
   runApp(
-    // wrapping in a provider like react context
+    // wrapping a provider like react context
     ChangeNotifierProvider(
-      create: (_) => OrderProvider(),
+      create: (_) => OrderProvider(),   // creates one instance that lives for app lifetime
       child: const LaundryApp(),
     ),
   );
@@ -44,7 +44,6 @@ class LaundryApp extends StatelessWidget {
         routes: {
           '/': (context) => const _ProviderBootstrapper(),
           '/add-order': (context) => const AddOrder(),
-          //'/dashboard': (context) => Dashboard(),
         },
       );
   }

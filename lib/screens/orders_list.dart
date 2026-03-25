@@ -35,13 +35,6 @@ class _OrdersListState extends State<OrdersList> {
             fontSize: 20 
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.bar_chart_rounded),
-            tooltip: 'Dashboard',
-            onPressed: () => Navigator.pushNamed(context, '/dashboard'),
-          ), 
-        ],
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -62,7 +55,7 @@ class _OrdersListState extends State<OrdersList> {
             },
             onClear: () {
               _searchController.clear();
-              context.read<OrderProvider>().searchOrders('');
+              context.read<OrderProvider>().searchOrders('');   // resets search
             },
           ),
           _FilterChipRow(
@@ -347,6 +340,7 @@ class _OrderCard extends StatelessWidget {
                       letterSpacing: 0.5,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   _StatusChip(
                     status: order.status,
                     color: statusColor

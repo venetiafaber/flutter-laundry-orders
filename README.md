@@ -91,6 +91,6 @@ The app is organised into three layers:
 
 ## Screenshots
 
-| Orders List | Add Order | 
-|---|---|---|
-| ![Orders List](screenshots/orders_list.png) | ![Add Order](screenshots/add_order.png) | 
+| Orders List | Add Order
+|---|---
+| ![Orders List](screenshots/orders_list.png) | ![Add Order](screenshots/add_order.png)

@@ -45,16 +45,18 @@ class _AddOrderState extends State<AddOrder> {
     final items = double.tryParse(_itemsController.text) ?? 0;
     final price = double.tryParse(_priceController.text) ?? 0;
     setState(() {
-      _totalPrice = items * price;
+      _totalPrice = items * price;                            // local widget state for preview
     });
   }
 
   // handles submit
   Future<void> _submit() async {
+    // validates all fields
     if(!_formKey.currentState!.validate()) return;
 
     setState(() => _isSubmitting = true);
 
+    // builds the order onject from form values
     final order = Order(
       customerName: _nameController.text.trim(), 
       phoneNumber: _phoneController.text.trim(), 
@@ -66,9 +68,9 @@ class _AddOrderState extends State<AddOrder> {
 
 
     try {
-      await context.read<OrderProvider>().addOrder(order);
+      await context.read<OrderProvider>().addOrder(order);    // sends to provider
       if(mounted) {
-        Navigator.pop(context);
+        Navigator.pop(context); // goes back to orders list
       }
 
     } catch (e) {

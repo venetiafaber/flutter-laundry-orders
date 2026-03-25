@@ -40,10 +40,10 @@ class OrderProvider with ChangeNotifier {
     _setLoading(true);
     try {
       _orders = await _db.getAllOrders();
-      print('Loaded ${_orders.length} orders: $_orders');   // debug
+      //print('Loaded ${_orders.length} orders: $_orders');   // debug
       _applyFilters();      //pushes the order data into _filtered and call notifyListeners(): _applyFilters does both these
     } catch (e) {
-      print('loadOrders errors: $e');   // debug 
+      //print('loadOrders errors: $e');   // debug 
       _error = e.toString();
       notifyListeners();    // like setState(), every widget that calls OrderProvider context with re-render
     } finally {
@@ -54,13 +54,14 @@ class OrderProvider with ChangeNotifier {
   // insert orders
   Future<void> addOrder(Order order) async {
     try {
-      final id = await _db.insertOrder(order);
-      print('Inserted order with id: $id'); // debug 
+      final id = await _db.insertOrder(order);    // saves to SQLite to get back the generated id
+      //print('Inserted order with id: $id'); // debug 
       // attaches the db generated if before adding to local state
       _orders.insert(0, order.copyWith(id: id));    // index 0 - front of the list
-      _applyFilters();    
+      _applyFilters();    // notifies listerners, ui is rebuild
+
     } catch (e) {
-      print('addOrders errors: $e');   // debug 
+      //print('addOrders errors: $e');   // debug 
       _error = e.toString();
       notifyListeners();
     } 
@@ -69,17 +70,18 @@ class OrderProvider with ChangeNotifier {
   // update status
   Future<void> updateStatus(int orderId) async {
     final index = _orders.indexWhere((o) => o.id == orderId);
-    if (index == -1) return;    // -1: no match 
+    if (index == -1) return;    // -1: no match, order not found 
 
     final current = _orders[index];   // the order to be updated
-    final nextStatus = _nextStatus(current.status);
-    if (nextStatus == null) return;
+    final nextStatus = _nextStatus(current.status); // calculated next status
+    if (nextStatus == null) return;   // Delivered, do nothing
     
     final updated = current.copyWith(status: nextStatus);
     try {
-     await _db.updateOrderStatus(orderId, nextStatus);
+     await _db.updateOrderStatus(orderId, nextStatus);    // saves to SQLite
      _orders[index] = updated;
-     _applyFilters();
+     _applyFilters();   // triggers notifyListeners
+
     } catch (e) {
       _error = e.toString();
       notifyListeners();
@@ -124,10 +126,13 @@ class OrderProvider with ChangeNotifier {
 
   void _applyFilters () {           
     _filtered = _orders.where((order) {
+
+      // checks if order matches the search query
       final matchesSearch = _searchQuery.isEmpty || 
         order.customerName.toLowerCase().contains(_searchQuery) ||
         order.id.toString().contains(_searchQuery);
 
+      // checks if order matches the active status chip
       final matchesStatus = _statusFilter == null ||
         order.status == _statusFilter;
 
@@ -145,8 +150,8 @@ class OrderProvider with ChangeNotifier {
       OrderStatus.delivered,
     ];
     final idx = flow.indexWhere((s) => s.value == current);
-    if (idx == -1 || idx == flow.length -1 ) return null;
-    return flow[idx + 1].value;
+    if (idx == -1 || idx == flow.length -1 ) return null;   
+    return flow[idx + 1].value;   // returns the next flow
   }
 
 }
