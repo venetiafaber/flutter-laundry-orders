@@ -19,8 +19,8 @@ A Flutter mobile application for managing laundry service orders. The app suppor
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/venetiafaber/laundry-order-management.git
-cd laundry-order-management
+git clone https://github.com/venetiafaber/flutter-laundry-orders.git
+cd flutter-laundry-orders
 
 # 2. Install dependencies
 flutter pub get
